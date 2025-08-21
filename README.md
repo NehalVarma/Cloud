@@ -15,17 +15,22 @@ A production-quality AI image classification system with Software-Defined Networ
 
 ## 🚀 Quick Start
 
-1. **Prerequisites**: Docker, Docker Compose, Python 3.8+, (optional: Mininet for SDN demo)
+### Simple Demo (No Docker Required)
+1. **Start inference service**: `cd inference_service && pip install flask pillow numpy tensorflow && python -m app.server`
+2. **Start web interface**: `cd frontend/static_version && python -m http.server 8000`  
+3. **Access**: Open http://localhost:8000 and upload an image!
 
-2. **Launch the complete system**:
+### Full Docker System
+1. **Prerequisites**: Docker, Docker Compose V2
+2. **Launch the core services**:
    ```bash
-   ./scripts/build_all.sh
-   docker-compose up -d
+   chmod +x scripts/*.sh
+   docker compose up -d inference1 inference2 frontend
    ```
+3. **Access the Web UI**: Open http://localhost:3000 in your browser
+4. **Upload an image** and see real-time classification results
 
-3. **Access the Web UI**: Open http://localhost:8080 in your browser
-
-4. **Upload an image** and see real-time classification results with server load distribution
+📖 **For detailed instructions**: See [QUICK_START.md](QUICK_START.md)
 
 ## 📁 Project Structure
 
