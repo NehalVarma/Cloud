@@ -68,8 +68,8 @@ services:
       - API_PORT=8080
       - VIRTUAL_IP=10.0.0.100
     ports:
-      - "8080:8080"
-      - "6653:6653"  # OpenFlow controller port
+      - "8081:8080"   # Host 8081 -> Container 8080
+      - "6653:6653"   # OpenFlow controller port
     depends_on:
       - inference1
       - inference2
@@ -83,7 +83,7 @@ services:
     image: nginx:alpine
     container_name: ai-frontend
     ports:
-      - "8080:8080"
+      - "8080:8080"   # Host 8080 -> Container 8080
     volumes:
       - ./frontend/static_version:/usr/share/nginx/html:ro
     networks:
