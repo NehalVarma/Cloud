@@ -1,0 +1,6 @@
+ryu==4.34
+requests==2.31.0
+flask==2.3.3
+flask-cors==4.0.0
+prometheus-client==0.17.1
+psutil==5.9.5

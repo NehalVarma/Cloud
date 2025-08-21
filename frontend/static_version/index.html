@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Image Classification Service</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🤖 AI Image Classification Service</h1>
+            <div class="controls">
+                <button id="theme-toggle" aria-label="Toggle dark/light mode">🌓</button>
+                <div class="status-indicators">
+                    <div id="server-status" class="status-badge">
+                        <span class="status-dot"></span>
+                        <span class="status-text">Checking...</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <!-- Upload Section -->
+            <section class="upload-section">
+                <h2>Upload Image for Classification</h2>
+                <div id="drop-zone" class="drop-zone">
+                    <div class="drop-content">
+                        <div class="upload-icon">📸</div>
+                        <p>Drag & drop an image here, or <button id="file-select-btn" type="button">browse files</button></p>
+                        <p class="file-info">Supports: JPG, PNG, GIF (max 10MB)</p>
+                    </div>
+                    <input type="file" id="file-input" accept="image/*" style="display: none;">
+                </div>
+                
+                <div id="image-preview" class="image-preview" style="display: none;">
+                    <img id="preview-img" alt="Preview of uploaded image">
+                    <div class="preview-actions">
+                        <button id="classify-btn" class="btn-primary">🔍 Classify Image</button>
+                        <button id="clear-btn" class="btn-secondary">✖ Clear</button>
+                    </div>
+                </div>
+                
+                <div id="loading" class="loading" style="display: none;">
+                    <div class="spinner"></div>
+                    <p>Classifying image...</p>
+                </div>
+            </section>
+
+            <!-- Results Section -->
+            <section id="results-section" class="results-section" style="display: none;">
+                <h2>Classification Results</h2>
+                <div class="result-card">
+                    <div class="result-main">
+                        <div class="result-label">
+                            <h3 id="result-label">-</h3>
+                            <div class="confidence-bar">
+                                <div id="confidence-fill" class="confidence-fill"></div>
+                                <span id="confidence-text">0%</span>
+                            </div>
+                        </div>
+                        <div class="result-meta">
+                            <div class="meta-item">
+                                <label>Server:</label>
+                                <span id="server-id">-</span>
+                            </div>
+                            <div class="meta-item">
+                                <label>Model:</label>
+                                <span id="model-version">-</span>
+                            </div>
+                            <div class="meta-item">
+                                <label>Latency:</label>
+                                <span id="latency">-</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="result-actions">
+                        <button id="repeat-btn" class="btn-secondary">🔄 Repeat</button>
+                        <button id="copy-json-btn" class="btn-secondary">📋 Copy JSON</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Test Gallery -->
+            <section class="gallery-section">
+                <h2>Test Gallery</h2>
+                <p>Try these sample images for quick testing:</p>
+                <div class="gallery-grid">
+                    <div class="gallery-item" data-image="cat">
+                        <div class="gallery-image">🐱</div>
+                        <button class="gallery-btn">Test Cat</button>
+                    </div>
+                    <div class="gallery-item" data-image="dog">
+                        <div class="gallery-image">🐶</div>
+                        <button class="gallery-btn">Test Dog</button>
+                    </div>
+                    <div class="gallery-item" data-image="car">
+                        <div class="gallery-image">🚗</div>
+                        <button class="gallery-btn">Test Car</button>
+                    </div>
+                    <div class="gallery-item" data-image="flower">
+                        <div class="gallery-image">🌸</div>
+                        <button class="gallery-btn">Test Flower</button>
+                    </div>
+                    <div class="gallery-item" data-image="food">
+                        <div class="gallery-image">🍕</div>
+                        <button class="gallery-btn">Test Food</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Server Statistics -->
+            <section class="stats-section">
+                <h2>Server Statistics</h2>
+                <div class="stats-header">
+                    <div class="algorithm-info">
+                        <label>Algorithm:</label>
+                        <span id="current-algorithm">-</span>
+                    </div>
+                    <div class="total-requests">
+                        <label>Total Requests:</label>
+                        <span id="total-requests">0</span>
+                    </div>
+                </div>
+                
+                <div id="server-stats" class="server-stats">
+                    <div class="stats-loading">Loading server statistics...</div>
+                </div>
+            </section>
+
+            <!-- Error Display -->
+            <div id="error-panel" class="error-panel" style="display: none;">
+                <div class="error-content">
+                    <span class="error-icon">⚠️</span>
+                    <span id="error-message">An error occurred</span>
+                    <button id="error-close" class="error-close">✖</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
