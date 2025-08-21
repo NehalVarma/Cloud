@@ -83,7 +83,7 @@ services:
     image: nginx:alpine
     container_name: ai-frontend
     ports:
-      - "3000:80"
+      - "8080:8080"
     volumes:
       - ./frontend/static_version:/usr/share/nginx/html:ro
     networks:
