@@ -61,14 +61,19 @@ def readiness_check():
 def predict():
     """Main prediction endpoint."""
     try:
+        logger.info(f"Received prediction request with files: {list(request.files.keys())}")
+        
         # Check if image file is present
         if 'image' not in request.files:
+            logger.warning("No image field in request")
             return jsonify({
                 "error": "No image file provided",
                 "server_id": SERVER_ID
             }), 400
             
         file = request.files['image']
+        logger.info(f"Image file: filename='{file.filename}', content_type='{file.content_type}'")
+        
         if file.filename == '':
             return jsonify({
                 "error": "No image file selected",
@@ -78,14 +83,16 @@ def predict():
         # Validate file type
         if not file.content_type.startswith('image/'):
             return jsonify({
-                "error": "File is not an image",
+                "error": f"File is not an image (content-type: {file.content_type})",
                 "server_id": SERVER_ID
             }), 400
             
         # Load and process image
         try:
             image = Image.open(BytesIO(file.read()))
+            logger.info(f"Successfully loaded image: {image.format} {image.size} {image.mode}")
         except Exception as e:
+            logger.error(f"Failed to load image: {e}")
             return jsonify({
                 "error": f"Invalid image file: {str(e)}",
                 "server_id": SERVER_ID

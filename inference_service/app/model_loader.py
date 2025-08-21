@@ -4,7 +4,15 @@ import time
 from typing import Optional, Tuple
 import numpy as np
 from PIL import Image
-import tensorflow as tf
+
+# Try to import tensorflow, fall back to None if not available
+try:
+    import tensorflow as tf
+    TF_AVAILABLE = True
+except ImportError:
+    tf = None
+    TF_AVAILABLE = False
+    logging.warning("TensorFlow not available, using fallback classifier only")
 
 logger = logging.getLogger(__name__)
 
@@ -20,6 +28,12 @@ class ModelLoader:
     def load_model(self) -> bool:
         """Load the AI model with fallback to stub classifier."""
         try:
+            if not TF_AVAILABLE:
+                logger.info("TensorFlow not available, using fallback classifier")
+                self.use_fallback = True
+                self._init_fallback_classifier()
+                return True
+                
             logger.info(f"Loading {self.model_name} model...")
             
             # Try to load MobileNetV2
@@ -48,7 +62,7 @@ class ModelLoader:
         
     def preprocess_image(self, image: Image.Image) -> np.ndarray:
         """Preprocess image for model inference."""
-        if self.use_fallback:
+        if self.use_fallback or not TF_AVAILABLE:
             # Simple preprocessing for fallback
             return np.array(image.resize((224, 224)))
             
@@ -62,7 +76,7 @@ class ModelLoader:
         
     def predict(self, image_array: np.ndarray) -> Tuple[str, float]:
         """Make prediction and return label and confidence."""
-        if self.use_fallback:
+        if self.use_fallback or not TF_AVAILABLE:
             return self._fallback_predict(image_array)
             
         try:
