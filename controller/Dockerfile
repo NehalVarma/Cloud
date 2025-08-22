@@ -1,7 +1,6 @@
 FROM python:3.9-slim
 
 # Install system dependencies
-RUN pip install -r requirements.txt
 RUN apt-get update && apt-get install -y \
     gcc \
     g++ \
@@ -11,12 +10,10 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /app
 
 # Copy requirements first for better caching
-COPY requirements.txt .
+COPY requirements.txt ./
 
-# Install Python dependencies
+# Install Python dependencies (eventlet pinned in requirements.txt)
 RUN pip install --no-cache-dir -r requirements.txt
-RUN pip install eventlet==0.30.2
-
 
 # Copy application code
 COPY . .
