@@ -7,8 +7,12 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /app
 COPY requirements.txt ./
+
+# Install everything (will install eventlet-0.40.2 due to Ryu)
 RUN pip install --no-cache-dir -r requirements.txt
-RUN python -c "import eventlet; print('Eventlet version:', eventlet.__version__)"
+
+# Force uninstall and reinstall eventlet==0.30.2
+RUN pip uninstall -y eventlet && pip install eventlet==0.30.2
 
 COPY . .
 
